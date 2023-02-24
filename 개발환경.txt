@@ -1,0 +1,75 @@
+리액트와 서블릿 연동
+; dev_jsp[D:\workspace_java\dev_jsp]
+yarn 패키지 매니저 사용
+
+npm install -g yarn : yarn 설치(설치 시 -g 전역에서 사용 가능하게 설치, -D 개발자 의존성 주입; spring maven, gradle)
+yarn -version : yarn 버전 확인
+
+리액트 프로젝트 생성
+1 yarn create react-app template2023
+단, 현재 바라보는 폴더 아래 template2023 폴더 생성
+VScode로 프로젝트 실행 시에도 같은 경로에서 열어야 에러 없음
+[D:\workspace_java\dev_jsp\src\main] > react-front로 열기
+
+2 yarn init --force + Enter
+계속 엔터 시 디폴트값으로 package.json 등록
+package.json
+  "description": "dev_jsp 프로젝트와 리액트 프로젝트 연동",
+  "main": "index.js",
+  "author": "YeoEunGyeong <yeg0420@gmail.com>",
+  "license": "MIT"
+
+실행
+yarn start + Enter
+http://localhost:3000/index.html 실행 -> div id="root"
+
+ReactDOM.createRoot(rootElement).render(element(<Paint/> <Nice/>))
+
+index.html -> index.js -> BrowserRouter로 App.jsx 감쌈 -> App.jsx에서 Route 통해 페이지 링크
+
+3 react-router-dom 설치
+; 웹페이지 제작 필수 - 화면 전환 - 링크 포함
+src/index.js BrowserRouter 추가(단, App.jsx를 감싸줌)
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
+
+4 CSS 추가분
+React-BootStrap 설치 : yarn add react-bootstrap 터미널에 설치
+만일, React-BootStrap 미지원 부분에 대해서는 bootstrap을 설치하여 사용자 정의 CSS처리
+yarn add bootstrap ; CSS 라이브러리 설치
+
+CSS를 자바 스크립트 문법으로 처리해 주는 styled-components 설치 : yarn add styled-components
+
+5 무료 이모티콘(font-awesome) : yarn add @fortawesome/fontawesome-free
+
+6 axios ; 비동기 처리를 도움 - 톰캣 서버의 서블릿 요청
+Moesif CORS - true/false ; 프록시
+주의 : CORS 이슈 ; 스프링
+
+import axios from "axios";
+
+export const jsonDeptList = (params) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const reaponse = axios({
+        method: "get",
+        url: process.env.REACT_APP_DEV_JSP_IP + "dept/jsonDeptList.st1",
+        parmas: params,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+7 firebase : yarn add firebase 설치
+; 로그인 인증, 회원가입 지원, RealtimeDatabaseServer(채팅 기능 활용)
+
+.env
+; 구글, 카카오 키값 관리
+
+.gitignore에 .env 등록(키값이 다른 사람에게 공유되지 않게 관리)
